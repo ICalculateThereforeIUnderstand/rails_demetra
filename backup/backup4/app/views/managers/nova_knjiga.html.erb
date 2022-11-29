@@ -1,0 +1,149 @@
+<main id="opisknjige-main">
+<div id="confirmation">
+            <div id="confirmation-el">
+                <div id="confirmation-el1">
+					<p></p>
+				</div>
+				<div id="confirmation-el2">
+					<div id="confirmation-gumb1">
+						Otkaži
+					</div>
+					<div id="confirmation-gumb2">
+						OK
+					</div>
+				</div>
+	        </div>
+</div>
+<% flash.each do |message_type, message| %>
+    
+    <div class="alert alert-<%= message_type %>">
+        <p><%= message %></p>
+        <div class="alert-close">
+            <div class="alert-close-el1">
+                <div class="alert-close-el2"></div>
+                <div class="alert-close-el3"></div>
+            </div>
+        </div>
+    </div>
+    
+<% end %>
+            <div id="opisknjige-stupac1">
+                
+            <%= if !@slika.nil? 
+                ('<img id="opisknjige-img", alt="slika knjige", src="data:image/jpg;base64,%s">' % Base64.encode64(@slika)).html_safe;
+                else
+                    image_tag("/assets/nepoznata_knjiga.jpg", :id => "opisknjige-img", :alt => "logo") 
+            end %>
+
+
+
+
+            </div>
+            <div id="opisknjige-stupac2">
+                <%= form_with url: "/nova_knjiga", id: "modificirajknjigu-forma", method: :post do |form| %>
+                <input name="id" type="hidden" value="<%= @idKnjige %>"/>
+                <table id="opisknjige1-tablica">
+                    <tr class="opisknjige-neparnired">
+                        <td class="opisknjige-elementi2">Title:</td>
+                        <td id="naslov-polje" class="opisknjige-elementi1"><%= output1(@naslov) %></td>
+                        <td class="opisknjige-elementi1" style="display:none"><input type="text" id="naslov-input" name="naslov" value="<%= output1(@naslov) %>"></td>
+                    </tr>
+                    <tr id="modificiraj-knjigu-autor">
+                        <td class="opisknjige-elementi2">Author:</td>
+                        <td id="autor-polje" class="opisknjige-elementi1"><%= @pocetniIspisAutora %></td>
+                        <td class="opisknjige-elementi1" style="display:none">
+                            <select id="modificirajknjigu-selekt1" class="manager2-forma1-el1" name="autori[]" size="5" multiple>
+                                <option value="">bez odabira</option>
+                                <% @sviautori.each do |aut| %>
+                                    <% if isAuthorInsideArray(@autoriKnjige, aut.autor) %>
+                                        <% stri = '<option value="' + aut.autor + '" selected>' + aut.autor + '</option>' %>
+                                        <%= (stri).html_safe %>
+                                    <% else %>
+                                        <% stri = '<option value="' + aut.autor + '">' + aut.autor + '</option>' %>
+                                        <%= (stri).html_safe %>
+                                    <% end%>
+                                <% end %>  
+                            </select>   
+                            <div id="opisknjige-div1">
+                                    <input type="text" id="modificirajAutora-input" name="modificirajAutora" value="">
+                                    <input type="hidden" id="modificirajAutora-hidden" name="akcija" value="">
+                    
+                                <div id="modificirajAutora-div">
+                                    <div id="modificirajAutora-gumb" class="modificirajAutora-gumb"><p>New Author</p></div>
+                                    <div style="height:100%;width:10px;"></div>
+                                    <div id="modificirajAutora-gumb1" class="modificirajAutora-gumb"><p>Erase Author</p></div>
+                                </div>
+                            </div>                      
+                        </td>
+                    </tr>
+                    <tr class="opisknjige-neparnired">
+                        <td class="opisknjige-elementi2">Price:</td>
+                        <td id="cijena-polje" class="opisknjige-elementi1"><%= output1(@cijena) %></td>
+                        <td class="opisknjige-elementi1" style="display:none"><input type="text" id="cijena-input" name="cijena" value="<%= output1(@cijena) %>"></td>
+                    </tr>
+                    <tr>
+                        <td class="opisknjige-elementi2">Biblioteka:</td>
+                        <td id="biblioteka-polje" class="opisknjige-elementi1"><%= output1(@biblioteka) %></td>
+                        <td class="opisknjige-elementi1" style="display:none">
+
+                            <select id="modificirajknjigu-selekt" class="manager2-forma1-el1" name="biblioteka" size="5">
+                                <% if @biblioteka == "" %>
+                                    <option value="" selected>bez odabira</option> 
+                                <% else %>
+                                    <option value="">bez odabira</option> 
+                                <% end %>
+
+                                <% @biblioteke.each do |bibl| %>
+                                    <% if @biblioteka == bibl.biblioteka %>
+                                        <% stri = '<option value="' + bibl.biblioteka + '" selected>' + bibl.biblioteka + '</option>' %>
+                                        <%= (stri).html_safe %>
+                                    <% else %>
+                                        <% stri = '<option value="' + bibl.biblioteka + '">' + bibl.biblioteka + '</option>' %>
+                                        <%= (stri).html_safe %>
+                                    <% end%>
+                                <% end %>  
+                            </select>                      
+                        </td>
+                    </tr>
+                    <tr class="opisknjige-neparnired">
+                        <td class="opisknjige-elementi2">Publish year:</td>
+                        <td id="godina-polje" class="opisknjige-elementi1"><%= output1(@godina) %></td>
+                        <td class="opisknjige-elementi1" style="display:none"><input type="number" id="godina-input" name="godina" min="1990" max="2022" value="<%= output1(@godina) %>"></td>
+                    </tr>
+                    <tr>
+                        <td class="opisknjige-elementi2">Num. of pages:</td>
+                        <td id="stranica-polje" class="opisknjige-elementi1"><%= output1(@brojStranica) %></td>
+                        <td class="opisknjige-elementi1" style="display:none"><input type="text" id="stranica-input" name="brojStranica" value="<%= output1(@brojStranica) %>"></td>
+                    </tr>
+                    <tr class="opisknjige-neparnired">
+                        <td class="opisknjige-elementi2">ISBN:</td>
+                        <td id="isbn-polje" class="opisknjige-elementi1"><%= output1(@isbn) %></td>
+                        <td class="opisknjige-elementi1" style="display:none"><input type="text" id="isbn-input" name="isbn" value="<%= output1(@isbn) %>"></td>                        
+                    </tr>
+                    <tr>
+                        <td class="opisknjige-elementi2">Image:</td>
+                        <td id="file-polje" class="opisknjige-elementi1">Click here to change image</td>
+                        <td id="file-polje1" class="opisknjige-elementi1" style="display:none">
+                            <div id="modificirajAutora-gumb2" ><p>No Pic</p></div>
+                            <%= form.file_field :image, accept: 'image/jpeg', id: "file-input" %>
+                            <input id="file-slikaAkcija" name="slikaAkcija" type="hidden" value=""/>
+                        </td>
+                    </tr>
+                </table>
+                <% end %>
+
+                <% if @sakrijGumb %>
+                    <a href="/manager1" id="opisknjige-gumb1"><div class="manager2-gumb manager2-gumb1"><p>Back</p></div></a>
+                <% else %>
+                    <div id="opisknjige-gumb-nova" class="manager2-gumb"><p>New</p></div>
+                <% end %>
+                
+                <!--<img id="opisknjige-img1" src="./grafika/slika_demetre8bit_mala.png" alt="slika Demetre">-->
+                <%= image_tag("slika_demetre8bit_mala.png", id: "opisknjige-img1", alt: "slika Demetre") %>
+                <div id="opisknjige-div-link">
+                    <a href="/manager1" class="link-header">Natrag na glavnu stranicu</a>
+                </div>
+                <!--<p><%= @val %></p>
+                <p>ID knjige: <%= @idKnjige %></p>-->
+            </div>
+        </main>

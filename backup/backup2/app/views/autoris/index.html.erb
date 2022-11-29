@@ -1,0 +1,7 @@
+<h1>Autoris#index</h1>
+<%= will_paginate(@autori, :previous_label=>"prije", :next_label=>"poslije", :inner_window=>2,
+                  :outer_window=>2) %>
+
+<% @autori.each do |autor| %>
+    <p><%= autor.autor %> - <%= autor.id %></p>
+  <% end %>

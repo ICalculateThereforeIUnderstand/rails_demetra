@@ -1,0 +1,51 @@
+<main id="opisknjige-main">
+            <div id="opisknjige-stupac1">
+                
+                <%= if !@knjiga.slika.nil? 
+                    ('<img id="opisknjige-img", alt="slika knjige", src="data:image/jpg;base64,%s">' % Base64.encode64(@knjiga.slika)).html_safe;
+                    else
+                        image_tag("/assets/nepoznata_knjiga.jpg", :id => "opisknjige-img", :alt => "logo") 
+                end %>
+
+
+
+
+            </div>
+            <div id="opisknjige-stupac2">
+                <table id="opisknjige-tablica">
+                    <tr class="opisknjige-neparnired">
+                        <td class="opisknjige-elementi2">Naslov:</td>
+                        <td class="opisknjige-elementi1"><%= output(@knjiga.naslov) %></td>
+                    </tr>
+                    <tr>
+                        <td class="opisknjige-elementi2">Autor:</td>
+                        <td class="opisknjige-elementi1"><%= output(@autori) %></td>
+                    </tr>
+                    <tr class="opisknjige-neparnired">
+                        <td class="opisknjige-elementi2">Cijena:</td>
+                        <td class="opisknjige-elementi1"><%= outputCijena(@knjiga.cijena) %></td>
+                    </tr>
+                    <tr>
+                        <td class="opisknjige-elementi2">Biblioteka:</td>
+                        <td class="opisknjige-elementi1"><%= output(@biblioteka) %></td>
+                    </tr>
+                    <tr class="opisknjige-neparnired">
+                        <td class="opisknjige-elementi2">Godina izdanja:</td>
+                        <td class="opisknjige-elementi1"><%= output(@knjiga.godina) %></td>
+                    </tr>
+                    <tr>
+                        <td class="opisknjige-elementi2">Broj stranica:</td>
+                        <td class="opisknjige-elementi1"><%= output(@knjiga.brojstranica) %></td>
+                    </tr>
+                    <tr class="opisknjige-neparnired">
+                        <td class="opisknjige-elementi2">ISBN:</td>
+                        <td class="opisknjige-elementi1"><%= output(@knjiga.isbn) %></td>
+                    </tr>
+                </table> 
+                <!--<img id="opisknjige-img1" src="./grafika/slika_demetre8bit_mala.png" alt="slika Demetre">-->
+                <%= image_tag("slika_demetre8bit_mala.png", id: "opisknjige-img1", alt: "slika Demetre") %>
+                <div id="opisknjige-div-link">
+                    <a href="#" class="link-header">Natrag na glavnu stranicu</a>
+                </div>
+            </div>
+        </main>

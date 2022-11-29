@@ -1,0 +1,108 @@
+<main id="manager2-main">
+    <% flash.each do |message_type, message| %>
+        <div class="alert alert-<%= message_type %>"><p><%= message %></p></div>
+    <% end %> 
+
+    <div id="manager2-polje1">
+        <div class="manager2-polje1-polovica1">
+
+            <form id="manager2-forma1" action="/manager2" accept-charset="UTF-8" method="get">
+
+                <select class="manager2-forma1-el1" name="skladiste" size="5">
+                    <% if @odabrani1 == 0 %>
+                        <option value="" selected>bez odabira</option> 
+                    <% else %>
+                        <option value="">bez odabira</option> 
+                    <% end %>
+                    
+                    <% @skladista.each do |skladiste| %>
+                      <% if @odabrani1 == skladiste.skladiste %>
+                          <% stri = '<option value="' + skladiste.skladiste + '" selected>' + skladiste.skladiste + '</option>' %>
+                          <%= (stri).html_safe %>
+                      <% else %>
+                          <% stri = '<option value="' + skladiste.skladiste + '">' + skladiste.skladiste + '</option>' %>
+                          <%= (stri).html_safe %>
+                      <% end%>
+                    <% end %>
+
+                </select> 
+                <!--<input id="sub" type="submit" name="commit" value="submit" data-disable-with="search">-->
+            </form>
+
+            <div class="manager2-polje1-div1">
+                <div id="manager2-gumb1" class="manager2-gumb"><p>odaberi</p></div>
+                <div id="manager2-gumb2" class="manager2-gumb"><p>oduzmi</p></div>
+            </div>
+
+        </div>
+        <div class="manager2-polje1-polovica2">
+            <form id="manager2-forma2" action="/manager2/dodaj_skladiste" accept-charset="UTF-8" method="get"> 
+                <label><div class="">Dodaj skladiste: <input type="text" name="novo_skladiste" placeholder="upisi ime novog skladista"></div></label>
+            </form> 
+            <div id="manager2-gumb3" class="manager2-gumb"><p>dodaj</p></div>   
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+    <div id="manager2-polje2">
+        <div class="manager2-polje1-polovica1">
+
+            <form id="manager2-forma3" action="/manager2/oduzmi_adresu" accept-charset="UTF-8" method="get">
+
+                <select class="manager2-forma1-el1" name="adresa" size="5">
+                <% @adrese.each do |adr| %>
+                    <% if @odabrani2 == adr["adresa"] %>
+                        <% stri = '<option value="' + adr["adresa"] + '" selected>' + adr["adresa"] + '</option>' %>
+                        <%= (stri).html_safe %>
+                    <% else %>
+                        <% stri = '<option value="' + adr["adresa"] + '">' + adr["adresa"] + '</option>' %>
+                        <%= (stri).html_safe %>
+                    <% end%>
+                  <% end %>                 
+                </select> 
+                <% 
+                  if @odabrani1.nil? || @odabrani1 == 0
+                     var = ""
+                  else
+                     var = @odabrani1
+                  end
+                %>
+                <% stri = '<input type="hidden" name="skladiste" value="' + var + '">' %>
+                <%= (stri).html_safe %>
+            </form>
+
+            <div class="manager2-polje1-div1">
+                <div id="manager2-gumb5" class="manager2-gumb"><p>oduzmi</p></div>
+            </div>
+
+        </div>
+        <div class="manager2-polje1-polovica2">
+            <form id="manager2-forma4" action="/manager2/dodaj_adresu" accept-charset="UTF-8" method="get"> 
+                <label><div class="">Dodaj adresu: <input type="text" name="nova_adresa" placeholder="upisi novu adresu"></div></label>
+                <!--<input type="hidden" id="custId" name="odabrano_skladiste" value="3487">-->
+                <% 
+                  if @odabrani1.nil? || @odabrani1 == 0
+                     var = ""
+                  else
+                     var = @odabrani1
+                  end
+                %>
+                <% stri = '<input type="hidden" id="custID" name="skladiste" value="' + var + '">' %>
+                <%= (stri).html_safe %>
+            </form> 
+            <div id="manager2-gumb6" class="manager2-gumb"><p>dodaj</p></div>   
+        </div>
+    </div>
+    <p><%= @auti %></p>
+    <p><%= @autor %>  </p>
+</main>

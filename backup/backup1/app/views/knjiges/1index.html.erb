@@ -1,0 +1,44 @@
+<h1>Knjige</h1>
+<%= will_paginate(@knjige, :previous_label=>"prethodna", :next_label=>"sljedeca", :inner_window=>2,
+                  :outer_window=>2) %>
+
+<% @knjige.each do |knjiga| %>
+    <% priv = knjiga.biblioteka_id; 
+       if !priv.nil?
+        #@priv1 = @veze.find_by(kodknjige:@priv);
+        priv = @biblioteke.find_by(biblioteka_id:priv);
+        if !priv.nil?
+            priv = priv.biblioteka;
+        end
+       end 
+       
+       priv1 = @veze.where(kodknjige:knjiga.id);
+       aut = priv1.length;
+       if aut == 0
+         aut = "";
+       elsif aut == 1
+         aut = @autori.find_by(id:priv1.first.kodautora).autor;
+       else
+         aut = "";
+         priv1.each do |pri|
+           aut +=  @autori.find_by(id:pri.kodautora).autor + "; ";
+         end
+         aut = aut.chop.chop
+       end  
+       
+       %>
+    <p><%= knjiga.naslov %>, <%= knjiga.godina %> </p>
+    <p>Cijena:<%= knjiga.cijena %>kn</p>
+    <p>ID biblioteke:<%= priv %></p>
+    <p>Autori:<%= aut %></p>
+    
+    <%= if !knjiga.slika.nil? 
+        ('<img src="data:image/jpg;base64,%s">' % Base64.encode64(knjiga.slika)).html_safe;
+        else
+            image_tag("/assets/nepoznata_knjiga.jpg", :alt => "logo") 
+        end %>
+
+        
+
+  <% end %>
+  

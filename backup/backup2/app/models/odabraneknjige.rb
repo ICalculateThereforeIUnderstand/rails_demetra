@@ -1,0 +1,3 @@
+class Odabraneknjige < ApplicationRecord
+    
+end

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Baza</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="utf-8">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "stil_manager", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <div id="tijelo">
+      <header>
+        <div id="header">
+          <%= image_tag("slika_demetre8bit_mala1.png", id: "el1-header", alt: "slika Demetre") %>
+          <%= image_tag("element2.png", id: "el2-header", alt: "logo") %>
+          <%= image_tag("slika_demetre8bit_mala1.png", id: "el3-header", alt: "slika Demetre") %>
+          <div id="izbornik-header">
+            <a href="/manager1" class="link-header lijevi-link-header">Books</a>
+            <a href="/manager2" class="link-header">Warehouses</a>
+            <!--<a href="#" class="link-header">Artikli</a>-->
+            <% if @uputstvaSw %>
+                <a href="<%= @uputstvaLink %>" class="link-header desni-link-header">Help</a>
+            <% else %>
+                <a href="#" class="link-header desni-link-header"></a>
+            <% end %>
+          </div>
+          <div id="gumb-header">
+            <div class="gumb-el"></div>
+            <div class="gumb-el"></div>
+            <div class="gumb-el"></div>
+          </div>
+        </div>
+        <div id="collapsing-menu-header">
+          <a href="#" class="collapsing-link"><p>Knjige</p></a>
+          <a href="#" class="collapsing-link"><p>Skladista</p></a>
+          <a href="#" class="collapsing-link"><p>Artikli</p></a>
+          <a href="#" class="collapsing-link"><p>Uputstva</p></a>
+        </div>
+      </header>
+      <%= yield %>
+    </div>
+  </body>
+</html>

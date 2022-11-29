@@ -1,0 +1,11 @@
+<p>ides</p>
+
+<%= '<p>ides na kvadrat</p>' %>
+
+<%= form_with(local: true, data: { turbo: false }) do |f| %>
+    
+    <%= f.label :name %>
+        <%= f.text_field :name %><%= f.label :email %>
+    <%= f.select :city, ["Berlin", "Chicago", "Madrid"] %>
+  <% end %>
+  

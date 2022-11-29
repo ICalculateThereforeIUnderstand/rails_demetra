@@ -1,0 +1,113 @@
+<main id="knjige-main">
+            <div id="knjige-polje1">
+                <div class="knjige-div4">
+                    <div id="bibID-4" class="knjige-button knjige-neaktivan">Filosofska biblioteka</div>
+                    <div id="bibID-5" class="knjige-button knjige-neaktivan">Faustovska biblioteka</div>
+                    <div id="bibID-6" class="knjige-button knjige-neaktivan">Filološka biblioteka</div>
+                    <div id="bibID-7" class="knjige-button knjige-neaktivan">Sybyllinska biblioteka</div>
+                    <div id="bibID-8" class="knjige-button knjige-neaktivan">Posebna izdanja</div>
+                    <div id="bibID-0" class="knjige-button knjige-neaktivan">Sve biblioteke</div>
+                </div>
+            <%= form_with url: "/pokus", id:"knjige-forma", method: :get do |form| %>
+                <div class="knjige-div3">
+                  <div class="knjige-div1"><%= form.label :autor, "Autor:" %></div>
+                  <%= form.text_field :autor, value: @autor, class: "knjige-div2" %>
+                </div>
+                <div class="knjige-div3">
+                  <div class="knjige-div1"><%= form.label :naslov, "Naslov:" %></div>
+                  <%= form.text_field :naslov, value: @naslov, class: "knjige-div2" %>
+                </div>
+                <div class="knjige-div3">
+                  <div class="knjige-div1"><%= form.label :godina, "Godina:" %></div>
+                  <%= form.number_field :godina, in: 1990..2022, step: 1, class: "knjige-div2" %>
+                </div>
+                <%= form.hidden_field :bibliotekaID, value: @bibliotekaID, id: "knjige-hidden-field" %>
+                <%= form.hidden_field :aktivnaStranica, value: @aktivnaStranica, id: "knjige-hidden-field1" %>
+                <%= form.hidden_field :brojStranica, value: @brojStranica, id: "knjige-hidden-field2" %>
+                <div class="knjige-div3 knjige-centriraj">
+                  <%= form.submit "Search", id: "knjige-gumb" %>
+                </div>
+            <% end %>
+            <p><%= @autor %>  </p>
+            <p><%= @naslov %>  </p>
+            <p><%= @brojKnjiga %>  </p>
+
+            </div>
+            <div id="knjige-polje2">
+              <% @knjige.each do |knjiga| %>
+                <% priv = knjiga["biblioteka_id"]; 
+                   if !priv.nil?
+                    priv = @biblioteke.find_by(biblioteka_id:priv);
+                    if !priv.nil?
+                        priv = priv.biblioteka;
+                    end
+                   end 
+                   
+                  if false 
+                   priv1 = @veze.where(kodknjige:knjiga["id"]);
+                   aut = priv1.length;
+                   if aut == 0
+                     aut = "";
+                   elsif aut == 1
+                     aut = @autori.find_by(id:priv1.first.kodautora).autor;
+                   else
+                     aut = "";
+                     priv1.each do |pri|
+                       aut +=  @autori.find_by(id:pri.kodautora).autor + "; ";
+                     end
+                     aut = aut.chop.chop
+                   end 
+                  elsif 
+                    aut = ""
+                    @autori1.each do |autor1|
+                      if autor1["id"] == knjiga["id"]
+                        aut += autor1["autor"] + "; "
+                    end  
+                  end
+                   
+                %>
+                <% end %>
+
+                <%= link_to detalji_path(id:knjiga["id"], autori:aut, biblioteka:priv) do %>
+                    <div class="knjige-element">
+                       <div class="element-el1">
+                           <%= if !knjiga["slika"].nil? 
+                            ('<img alt="slika knjige" class="element-el1-img" src="data:image/jpg;base64,%s">' % Base64.encode64(knjiga["slika"])).html_safe;
+                            else
+                                image_tag("nepoznata_knjiga.jpg", :class => "element-el1-img", :alt => "logo") 
+                            end %>
+                       </div>
+                       <div class="element-el2">
+                           <p class="element-el2-naslov"><%= knjiga["naslov"] %></p>
+                           <p class="element-el2-autor"><%= output(aut) %></p>
+                           <p class="element-el2-cijena"><%= outputCijena(knjiga["cijena"]) %></p>
+                       </div>
+                    </div>
+                <% end %>
+
+              <% end %>
+            </div>
+            <div id="knjige-polje3">
+                <div class="pagination">
+                    <!--<ul class="pagination">
+                        <li class="prev previous_page disabled">prethodna</li>
+                        <li class="active">1</li>
+                        <li>2</li>
+                        <li>3</li>
+                        <li>4</li>
+                        <li>5</li>
+                        <li>6</li>
+                        <li>7</li>
+                        <li>8</li>
+                        <li>9</li>
+                        <li>10</li>
+                        <li>11</li>
+                        <li>12</li>
+                        <li>13</li>
+                        <li>14</li>
+                        <li>15</li>
+                        <li class="next next_page">sljedeca</li>
+                    </ul>-->
+                </div>
+            </div>
+        </main>

@@ -1,0 +1,54 @@
+<main id="knjige-main">
+            <div id="knjige-polje1">
+            </div>
+            <div id="knjige-polje2">
+              <% @knjige.each do |knjiga| %>
+                <% priv = knjiga.biblioteka_id; 
+                   if !priv.nil?
+                    #@priv1 = @veze.find_by(kodknjige:@priv);
+                    priv = @biblioteke.find_by(biblioteka_id:priv);
+                    if !priv.nil?
+                        priv = priv.biblioteka;
+                    end
+                   end 
+                   
+                   priv1 = @veze.where(kodknjige:knjiga.id);
+                   aut = priv1.length;
+                   if aut == 0
+                     aut = "";
+                   elsif aut == 1
+                     aut = @autori.find_by(id:priv1.first.kodautora).autor;
+                   else
+                     aut = "";
+                     priv1.each do |pri|
+                       aut +=  @autori.find_by(id:pri.kodautora).autor + "; ";
+                     end
+                     aut = aut.chop.chop
+                   end  
+                   
+                %>
+
+
+                <%= link_to detalji_path(id:knjiga.id, autori:aut, biblioteka:priv) do %>
+                    <div class="knjige-element">
+                       <div class="element-el1">
+                           <%= if !knjiga.slika.nil? 
+                            ('<img alt="slika knjige" class="element-el1-img" src="data:image/jpg;base64,%s">' % Base64.encode64(knjiga.slika)).html_safe;
+                            else
+                                image_tag("nepoznata_knjiga.jpg", :class => "element-el1-img", :alt => "logo") 
+                            end %>
+                       </div>
+                       <div class="element-el2">
+                           <p class="element-el2-naslov"><%= knjiga.naslov %></p>
+                           <p class="element-el2-autor"><%= output(aut) %></p>
+                           <p class="element-el2-cijena"><%= outputCijena(knjiga.cijena) %></p>
+                       </div>
+                    </div>
+                <% end %>
+
+              <% end %>
+            </div>
+            <div id="knjige-polje3">
+                <%= will_paginate(@knjige, :previous_label=>"prethodna", :next_label=>"sljedeca", :inner_window=>2, :outer_window=>2) %>
+            </div>
+        </main>

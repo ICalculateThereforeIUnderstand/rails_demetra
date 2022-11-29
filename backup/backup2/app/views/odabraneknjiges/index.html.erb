@@ -1,0 +1,71 @@
+<main id="izdvajamo-main">
+    <div id="izdvajamo-stupac1">
+        <div id="izdvajamo-el4">
+            <p>Možda će Vas zanimati:</p>
+        </div>
+
+
+<% @odabraneknjige.each do |odabrana| %>
+    <% knjiga = @knjige.find_by(id:odabrana.id_knjige); %>
+
+    <% priv = knjiga.biblioteka_id; 
+       if !priv.nil?
+        #@priv1 = @veze.find_by(kodknjige:@priv);
+        priv = @biblioteke.find_by(biblioteka_id:priv);
+        if !priv.nil?
+            priv = priv.biblioteka;
+        end
+       end 
+       
+       priv1 = @veze.where(kodknjige:knjiga.id);
+       aut = priv1.length;
+       if aut == 0
+         aut = "";
+       elsif aut == 1
+         aut = @autori.find_by(id:priv1.first.kodautora).autor;
+       else
+         aut = "";
+         priv1.each do |pri|
+           aut +=  @autori.find_by(id:pri.kodautora).autor + "; ";
+         end
+         aut = aut.chop.chop
+       end  
+       
+    %>
+    
+    <%= link_to detalji_path(id:odabrana.id_knjige, autori:aut, biblioteka:priv) do %>
+    <div class="izdvajamo-element">
+       <div class="element-el1">
+           <%= if !knjiga.slika.nil? 
+            ('<img alt="slika knjige" class="element-el1-img" src="data:image/jpg;base64,%s">' % Base64.encode64(knjiga.slika)).html_safe;
+            else
+                image_tag("nepoznata_knjiga.jpg", :alt => "logo") 
+            end %>
+       </div>
+       <div class="element-el2">
+           <p class="element-el2-naslov"><%= knjiga.naslov %></p>
+           <p class="element-el2-autor"><%= aut %></p>
+           <p class="element-el2-cijena"><%= knjiga.cijena %>kn</p>
+       </div>
+    </div>
+    <% end %>
+
+<% end %>
+
+
+    </div>
+
+    <div id="izdvajamo-stupac2">
+        <p id="izdvajamo-el1">Filosofska biblioteka Dimitrija Savića</p>
+        <p id="izdvajamo-el2">email: <a href="mailto:dimitrije.savic@zg.t-com.hr">dimitrije.savic@zg.t-com.hr</a></p>
+        <!--<img id="izdvajamo-el3" src="./grafika/cayton_sa_okvirom_prozirni.gif" alt="Cayton">-->
+        <%= image_tag("cayton_sa_okvirom_prozirni.gif", id: "izdvajamo-el3", alt: "Cayton") %>
+    </div>
+</main>
+
+
+
+
+
+        
+

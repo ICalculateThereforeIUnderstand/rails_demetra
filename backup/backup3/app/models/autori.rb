@@ -1,0 +1,3 @@
+class Autori < ApplicationRecord
+
+end
