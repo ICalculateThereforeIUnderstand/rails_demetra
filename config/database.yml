@@ -51,6 +51,7 @@ test:
 #
 production:
   <<: *default
+  socket: /var/lib/mysql/mysql.sock
   database: demetra
   username: neko ime...
   password: neka sifra...
