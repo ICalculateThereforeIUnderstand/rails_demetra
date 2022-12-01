@@ -35,4 +35,6 @@ Rails.application.routes.draw do
   get '/nova_knjiga_help', to: 'managers#nova_knjiga_help'
   get '/modificiraj_knjigu_help', to: 'managers#modificiraj_knjigu_help'
   get '/manager2_help', to: 'managers#manager2_help'
+
+  get '/api/izdvajamo', to: 'api#izdvajamoApi'
 end

@@ -11,6 +11,8 @@ gem "sprockets-rails"
 
 gem "passenger", ">= 5.3.2", require: "phusion_passenger/rack_handler"
 
+gem 'rack-cors'
+
 # Use mysql as the database for Active Record
 gem "mysql2", "0.5.4"
 
