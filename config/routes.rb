@@ -37,4 +37,7 @@ Rails.application.routes.draw do
   get '/manager2_help', to: 'managers#manager2_help'
 
   get '/api/izdvajamo', to: 'api#izdvajamoApi'
+  get '/api/sveknjige', to: 'api#sve_knjigeApi'
+  get '/api/slika/:id', to: 'api#slika'
+  post '/api/manager2', to: 'api#manager2'
 end
