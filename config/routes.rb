@@ -38,6 +38,11 @@ Rails.application.routes.draw do
 
   get '/api/izdvajamo', to: 'api#izdvajamoApi'
   get '/api/sveknjige', to: 'api#sve_knjigeApi'
-  get '/api/slika/:id', to: 'api#slika'
+  get '/api/sveknjige1', to: 'api#sve_knjigeApi1'
+  post '/api/sveknjige1', to: 'api#sve_knjigeApi1'
+  get '/api/slika/:id/:ime', to: 'api#slika'
+  #get '/api/slika/:id', to: 'api#slika'
   post '/api/manager2', to: 'api#manager2'
+  post '/api/modificiraj_knjigu', to: 'api#modificiraj_knjiguApi'
+  get '/api/svi_autori_biblioteke_skladista_adrese', to: 'api#sviAutoriBibliotekeSkladistaAdrese'
 end
