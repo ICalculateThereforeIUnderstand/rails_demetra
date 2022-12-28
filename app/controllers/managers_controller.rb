@@ -160,6 +160,7 @@ class ManagersController < ApplicationController
     def manager1
         #@knjige = Knjige.paginate(:page => params[:page], :per_page => 20)  
       #@naslov = params[:naslov]
+      store_last_index_page  # sprema ovaj URL za back button
       @uputstvaSw = true
       @uputstvaLink = "/manager1_help"
 

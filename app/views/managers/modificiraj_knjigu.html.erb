@@ -255,7 +255,7 @@
                 <!--<img id="opisknjige-img1" src="./grafika/slika_demetre8bit_mala.png" alt="slika Demetre">-->
                 <%= image_tag("slika_demetre8bit_mala.png", id: "opisknjige-img1", alt: "slika Demetre") %>
                 <div id="opisknjige-div-link">
-                    <a href="/manager1" class="link-header">Natrag na glavnu stranicu</a>
+                    <%= link_to "Natrag", retrieve_last_index_page_or_default, class: "link-header" %>
                 </div>
                 
             </div>

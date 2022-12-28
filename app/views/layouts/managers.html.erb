@@ -34,11 +34,14 @@
             <div class="gumb-el"></div>
           </div>
         </div>
-        <div id="collapsing-menu-header">
-          <a href="#" class="collapsing-link"><p>Knjige</p></a>
-          <a href="#" class="collapsing-link"><p>Skladista</p></a>
-          <a href="#" class="collapsing-link"><p>Artikli</p></a>
-          <a href="#" class="collapsing-link"><p>Uputstva</p></a>
+        <div id="collapsing-menu-header1">
+          <a href="/manager1" class="collapsing-link"><p>Books</p></a>
+          <a href="/manager2" class="collapsing-link"><p>Warehouses</p></a>
+          <% if @uputstvaSw %>
+            <a href="<%= @uputstvaLink %>" class="collapsing-link"><p>Help</p></a>
+          <% else %>
+            <a href="#" class="collapsing-link"></a>
+          <% end %>
         </div>
       </header>
       <%= yield %>

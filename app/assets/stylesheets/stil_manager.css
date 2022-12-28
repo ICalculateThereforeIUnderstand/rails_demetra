@@ -132,7 +132,7 @@ header {
     background-color: white;
 }
 
-#collapsing-menu-header {
+#collapsing-menu-header, #collapsing-menu-header1 {
     position: absolute;
     top: 200px;
     left: 0px;
@@ -202,7 +202,7 @@ header {
         right: 43%;
     }
 
-    #collapsing-menu-header {
+    #collapsing-menu-header, #collapsing-menu-header1 {
         display: block;
     }
 }

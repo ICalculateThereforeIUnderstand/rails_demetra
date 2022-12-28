@@ -6,7 +6,12 @@ import "controllers"
 class Header {
     constructor() {
         this.gumb = document.querySelector("#gumb-header");
+        this.visina = 200;
         this.collapsMenu = document.querySelector("#collapsing-menu-header");
+        if (this.collapsMenu === null) {
+            this.collapsMenu = document.querySelector("#collapsing-menu-header1");
+            this.visina = 160;
+        }
         this.toggle = false;
 
         this.gumb.addEventListener("click", (e)=>{this.kliknuo(e)});
@@ -18,7 +23,7 @@ class Header {
             this.dodajStilove(this.collapsMenu, {height:"0px"});
         } else {
             this.toggle = true;
-            this.dodajStilove(this.collapsMenu, {height:"200px"});
+            this.dodajStilove(this.collapsMenu, {height:this.visina+"px"});
         }
     }
 
@@ -716,27 +721,36 @@ class Confirmation {
 	}
 }
 
-let h = new Header();
-let g = new Gumbi();
-let p = new Pagination();
+//window.onload = function() {
+
+console.log("stranica je ucitana " + Math.random());
+
+let h, g, p, m2, c, menu, mk, m1, el;
+
+setTimeout(()=>{
+h = new Header();
+g = new Gumbi();
+p = new Pagination();
 
 // manager
-let m2 = new Manager2();
+m2 = new Manager2();
 
-let c = new Confirmation();
-let menu = new Confirmation("modificirajknjigu-menu");
-let mk = new ModificirajKnjigu(c, menu);
+c = new Confirmation();
+menu = new Confirmation("modificirajknjigu-menu");
+mk = new ModificirajKnjigu(c, menu);
 
-let m1 = new Manager1();
+m1 = new Manager1();
 
-let el = document.querySelector("#link-back");
+el = document.querySelector("#link-back");
 if (el !== null) {
     el.addEventListener("click", (e)=>{e.preventDefault(); history.back(); console.log("ides natrag")});
 }
 
+}, 1000)
+
 // pomocni devlopment kod
 
-document.addEventListener("keydown", (e) => {pritisakGumba(e)});
+//document.addEventListener("keydown", (e) => {pritisakGumba(e)});
 
 function pritisakGumba(ev) {
     //ev.preventDefault();
@@ -744,3 +758,5 @@ function pritisakGumba(ev) {
         console.log("sirina ekrana je " + window.innerWidth);
     }
 }
+
+//}
