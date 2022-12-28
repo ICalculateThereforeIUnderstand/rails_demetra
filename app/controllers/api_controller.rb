@@ -279,7 +279,30 @@ class ApiController < ApplicationController
             var = {"value"=>nil, "error"=>true, "errorCode"=>"1Zadani autor ima pridruzene knjige."}
           end
         end
+      elsif (tip === "UNESI_NOVU_KNJIGU")
+        payload = params[:payload]
+        knjiga = Knjige.new
+        knjiga[:naslov] = payload[:naslov]
+        knjiga[:godina] = payload[:godina]
+        knjiga[:cijena] = payload[:cijena]
+        knjiga[:brojstranica] = payload[:brojStranica]
+        knjiga[:isbn] = payload[:isbn]
+        knjiga[:biblioteka_id] = payload[:bibliotekaID]
+        if (payload[:slikaUcitanaSw])
+          sl = payload[:slikaFile]
+          if (sl.nil?)
+            knjiga[:slika] = nil
+          else 
+            knjiga[:slika] = Base64.decode64(sl)
+          end
+        end
 
+        if knjiga.save 
+          var = {"value"=>knjiga[:id], "error"=>false, "errorCode"=>"no error"}
+        else 
+          var = {"value"=>nil, "error"=>true, "errorCode"=>"Unos nove knjige nije uspio"}
+        end
+        
       elsif (tip === "MODIFICIRAJ_KNJIGU")
         payload = params[:payload]
         knjiga = Knjige.find(payload[:id])
