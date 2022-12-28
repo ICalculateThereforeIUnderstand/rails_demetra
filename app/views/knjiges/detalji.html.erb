@@ -4,7 +4,7 @@
                 <%= if !@knjiga.slika.nil? 
                     ('<img id="opisknjige-img", alt="slika knjige", src="data:image/jpg;base64,%s">' % Base64.encode64(@knjiga.slika)).html_safe;
                     else
-                        image_tag("/assets/nepoznata_knjiga.jpg", :id => "opisknjige-img", :alt => "logo") 
+                        image_tag("nepoznata_knjiga.jpg", :id => "opisknjige-img", :alt => "logo") 
                 end %>
 
 
