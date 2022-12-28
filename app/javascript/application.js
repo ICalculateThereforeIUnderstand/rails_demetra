@@ -723,11 +723,10 @@ class Confirmation {
 
 //window.onload = function() {
 
-console.log("stranica je ucitana " + Math.random());
-
 let h, g, p, m2, c, menu, mk, m1, el;
 
 setTimeout(()=>{
+console.log("stranica je ucitana " + Math.random());
 h = new Header();
 g = new Gumbi();
 p = new Pagination();
