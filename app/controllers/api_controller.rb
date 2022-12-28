@@ -19,7 +19,7 @@ module ApiHelper
   end
 
   def vratiSveKnjige1()
-    var = Knjige.connection.select_all("SELECT id, naslov, godina, cijena, brojstranica, isbn, biblioteka_id, slika FROM knjiges;");
+    var = Knjige.connection.select_all("SELECT id, naslov, godina, cijena, brojstranica, isbn, biblioteka_id, slika, hash_kod FROM knjiges;");
     autori = Knjige.connection.select_all("SELECT kodknjige, autor, autoris.id as autorID FROM vezes INNER JOIN autoris ON autoris.id = kodautora;");
     biblioteke = Biblioteke.connection.select_all("SELECT * FROM bibliotekes");
 
@@ -28,7 +28,12 @@ module ApiHelper
 
     for el in var
       if (!el["slika"].nil?)
-        el["slika"] = "slika" + CGI.escape(Base64.encode64(el["slika"])[1500..1510]) + ".jpg"
+        #el["slika"] = "slika" + CGI.escape(Base64.encode64(el["slika"])[1500..1510]) + ".jpg"
+        if (el["hash_kod"].nil?)
+          el["slika"] = "slika.jpg"
+        else 
+          el["slika"] = "slika" + el["hash_kod"] + ".jpg"
+        end
         # ovaj mehanizam je hack koji dodaje hash na ime filea, tako da ako promjenimo sliku,
         # prisiljavamo kompjuter zbog drugacijeg hasha da ne koristi cache
       end
@@ -123,13 +128,18 @@ class ApiController < ApplicationController
     end
 
     def sve_knjigeApi
-        var = Knjige.connection.select_all("SELECT id, naslov, godina, cijena, brojstranica, isbn, biblioteka_id, slika FROM knjiges;");
+        var = Knjige.connection.select_all("SELECT id, naslov, godina, cijena, brojstranica, isbn, biblioteka_id, slika, hash_kod FROM knjiges;");
         autori = Knjige.connection.select_all("SELECT kodknjige, autor FROM vezes INNER JOIN autoris ON autoris.id = kodautora;");
         biblioteke = Biblioteke.connection.select_all("SELECT * FROM bibliotekes");
 
         for el in var
             if (!el["slika"].nil?)
-                el["slika"] = "slika" + CGI.escape(Base64.encode64(el["slika"])[510..520]) + ".jpg"; #Base64.encode64(el["slika"])
+                #el["slika"] = "slika" + CGI.escape(Base64.encode64(el["slika"])[510..520]) + ".jpg"; #Base64.encode64(el["slika"])
+                if (el["hash_kod"].nil?)
+                  el["slika"] = "slika.jpg"
+                else 
+                  el["slika"] = "slika" + el["hash_kod"] + ".jpg"
+                end
             end
             #el["slika"] = nil
 
@@ -161,10 +171,15 @@ class ApiController < ApplicationController
 
     def slika
         id = Knjige.sanitize_sql_like(params[:id])
-        var = Knjige.connection.select_all("SELECT slika, id, naslov, godina, cijena, brojstranica FROM knjiges WHERE id = " + id);    
+        var = Knjige.connection.select_all("SELECT slika, hash_kod FROM knjiges WHERE id = " + id);    
         #render json: var
         var1 = var[0]["slika"]
-        send_data(var1, :filename => "slika.jpg", :type=>"image/jpg")
+        var2 = var[0]["hash_kod"]
+        if (var2.nil?)
+          send_data(var1, :filename => "slika.jpg", :type=>"image/jpg")
+        else 
+          send_data(var1, :filename => "slika" + var2 + ".jpg", :type=>"image/jpg")
+        end
     end
 
     def sve_knjigeApi1
@@ -292,8 +307,10 @@ class ApiController < ApplicationController
           sl = payload[:slikaFile]
           if (sl.nil?)
             knjiga[:slika] = nil
+            knjiga[:hash_kod] = payload[:hashKod]
           else 
             knjiga[:slika] = Base64.decode64(sl)
+            knjiga[:hash_kod] = payload[:hashKod]
           end
         end
 
@@ -316,8 +333,10 @@ class ApiController < ApplicationController
           sl = payload[:slikaFile]
           if (sl.nil?)
             knjiga[:slika] = nil
+            knjiga[:hash_kod] = payload[:hashKod]
           else 
             knjiga[:slika] = Base64.decode64(sl)
+            knjiga[:hash_kod] = payload[:hashKod]
           end
         end
 
