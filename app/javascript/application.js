@@ -745,7 +745,7 @@ if (el !== null) {
     el.addEventListener("click", (e)=>{e.preventDefault(); history.back(); console.log("ides natrag")});
 }
 
-}, 200)
+}, 250)
 
 // pomocni devlopment kod
 
