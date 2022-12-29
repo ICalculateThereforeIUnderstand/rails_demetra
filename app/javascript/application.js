@@ -310,9 +310,9 @@ class ModificirajKnjigu {
 
             let djeca = this.tablica.children;
             console.log("broj djece je " + djeca.length);
-            for (let i = 0; i < djeca.length; i++) {
-                if (i == 9)  continue;
-                if (i == 3 || i == 1 || i == 7 || i == 8) {
+            for (let i = 1; i < djeca.length; i++) {
+                if (i == 10)  continue;
+                if (i == 4 || i == 2 || i == 8 || i == 9) {
                     djeca[i].addEventListener("click", (e)=>{this.toggleClick1(e)});
                     if (i == 7) {
                         let el = (djeca[i].children)[2].children[1];   
@@ -745,7 +745,7 @@ if (el !== null) {
     el.addEventListener("click", (e)=>{e.preventDefault(); history.back(); console.log("ides natrag")});
 }
 
-}, 1000)
+}, 50)
 
 // pomocni devlopment kod
 

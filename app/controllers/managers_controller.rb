@@ -200,7 +200,7 @@ class ManagersController < ApplicationController
         @naslov = Knjige.sanitize_sql_like(params[:naslov])
       end
       
-      if params[:autor].nil? || params[:naslov].to_s.strip.empty?
+      if params[:autor].nil?
         @autor = ""
       else 
         @autor = Knjige.sanitize_sql_like(params[:autor])
