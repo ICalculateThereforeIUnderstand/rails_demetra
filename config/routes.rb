@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  #devise_for :users
+  devise_for :users, controllers: { sessions: 'users/sessions' }
   #get 'bibliotekes/index'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -45,4 +47,7 @@ Rails.application.routes.draw do
   post '/api/manager2', to: 'api#manager2'
   post '/api/modificiraj_knjigu', to: 'api#modificiraj_knjiguApi'
   get '/api/svi_autori_biblioteke_skladista_adrese', to: 'api#sviAutoriBibliotekeSkladistaAdrese'
+
+  get '/logirani', to: 'managers#logirani_user'
+  get '/welcome', to: 'managers#welcome'
 end

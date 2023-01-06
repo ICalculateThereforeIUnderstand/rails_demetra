@@ -1,0 +1,13 @@
+<div id="manager1-flash-cont">
+  <% flash.each do |message_type, message| %>
+    <div class="alert alert-<%= message_type %>">
+      <p><%= message %></p>
+      <div class="alert-close">
+        <div class="alert-close-el1">
+          <div class="alert-close-el2"></div>
+          <div class="alert-close-el3"></div>
+        </div>
+      </div>
+    </div>  
+  <% end %>
+</div>

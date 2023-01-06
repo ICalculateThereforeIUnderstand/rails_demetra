@@ -745,6 +745,8 @@ if (el !== null) {
     el.addEventListener("click", (e)=>{e.preventDefault(); history.back(); console.log("ides natrag")});
 }
 
+if (document.querySelector("#izdvajamo-main"))
+  postaviFlash("alert");
 }, 250)
 
 // pomocni devlopment kod
