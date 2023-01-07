@@ -18,7 +18,132 @@ module ApiHelper
     return var1
   end
 
-  def vratiSveKnjige1()
+  def vratiPodatke1()  # linearno vrijeme
+    var = Skladista.connection.select_all("SELECT id, skladiste FROM skladista");
+    adr = Adrese.connection.select_all("SELECT adresa, kodskladista FROM adrese");
+ 
+    var1 = Hash.new
+    var.each do |el|
+      id = el["id"]
+      var1[id] = []
+    end
+
+    adr.each do |el1|
+      idadr = el1["kodskladista"]
+      var1[idadr].push(el1["adresa"])
+    end
+
+    var2 = []
+    var.each do |el|
+      id = el["id"]
+      skl = el["skladiste"]
+      var2.push({"id"=>id, "skladiste"=>skl, "adrese"=> var1[id]})
+    end
+
+    return var2
+  end
+
+  def vratiSveKnjige1()  # linearno vrijeme
+    var = Knjige.connection.select_all("SELECT id, naslov, godina, cijena, brojstranica, isbn, biblioteka_id, slika, hash_kod FROM knjiges;");
+    autori = Knjige.connection.select_all("SELECT kodknjige, autor, autoris.id as autorID FROM vezes INNER JOIN autoris ON autoris.id = kodautora;");
+    biblioteke = Biblioteke.connection.select_all("SELECT * FROM bibliotekes");
+
+    skl = Knjige.connection.select_all("SELECT knjiges.id as id, naslov, adresa, skladiste, kolicina, kodadrese FROM knjiges INNER JOIN veze1 ON kodknjige = knjiges.id INNER JOIN adrese ON kodadrese = adrese.id INNER JOIN skladista ON kodskladista = skladista.id");
+    odabrane = Odabraneknjige.connection.select_all("SELECT * FROM odabraneknjiges");
+
+    autoriHash = Hash.new
+    for autor in autori
+      kod = autor["kodknjige"]
+      if (autoriHash.key?(kod))
+        autoriHash[kod]["autori"].push(autor["autor"]);
+        autoriHash[kod]["autoriID"].push(autor["autorID"]);
+      else 
+        autoriHash[kod] = {"autori"=>[autor["autor"]],"autoriID"=>[autor["autorID"]]}
+      end
+    end
+
+    bibliotekeHash = Hash.new
+    for biblioteka in biblioteke
+      bibliotekeHash[biblioteka["biblioteka_id"]] = biblioteka["biblioteka"]
+    end  
+
+    lokacijeHash = Hash.new 
+    skl.each do |el1|
+      idadr = el1["id"]
+      if (lokacijeHash.key?(idadr))
+        lokacijeHash[idadr]["skladista"].push(el1["skladiste"]);
+        lokacijeHash[idadr]["adrese"].push(el1["adresa"]);
+        lokacijeHash[idadr]["kolicine"].push(el1["kolicina"]);
+        lokacijeHash[idadr]["adreseID"].push(el1["kodadrese"]);
+      else 
+        lokacijeHash[idadr] = {"skladista" => [el1["skladiste"]],
+        "adrese"=>[el1["adresa"]], "kolicine"=>[el1["kolicina"]],
+        "adreseID"=>[el1["kodadrese"]]}
+      end
+    end
+      
+    for el in var
+      if (!el["slika"].nil?)
+        #el["slika"] = "slika" + CGI.escape(Base64.encode64(el["slika"])[1500..1510]) + ".jpg"
+        if (el["hash_kod"].nil?)
+          el["slika"] = "slika.jpg"
+        else 
+          el["slika"] = "slika" + el["hash_kod"] + ".jpg"
+        end
+        # ovaj mehanizam je hack koji dodaje hash na ime filea, tako da ako promjenimo sliku,
+        # prisiljavamo kompjuter zbog drugacijeg hasha da ne koristi cache
+      end
+      #el["slika"] = nil
+
+      kod = el["id"]
+      
+      if (autoriHash.key?(kod))
+        autoriRez = autoriHash[kod]["autori"]
+        autoriID = autoriHash[kod]["autoriID"]
+      else 
+        autoriRez = []
+        autoriID = []
+      end
+
+      el["autori"] = autoriRez;
+      el["autoriID"] = autoriID;
+
+      kod = el["biblioteka_id"]
+      if !kod.nil?
+        el["biblioteka"] = nil
+        if (bibliotekeHash.key?(kod))
+          el["biblioteka"] = bibliotekeHash[kod]
+        end
+      else 
+        el["biblioteka"] = nil
+      end
+
+      kod = el["id"]
+      if (lokacijeHash.key?(kod))
+        el["skladista"] = lokacijeHash[kod]["skladista"]
+        el["adrese"] = lokacijeHash[kod]["adrese"]
+        el["adreseID"] = lokacijeHash[kod]["adreseID"]
+        el["kolicine"] = lokacijeHash[kod]["kolicine"]
+      else 
+        el["skladista"] = []
+        el["adrese"] = []
+        el["kolicine"] = []
+        el["adreseID"] = []
+      end
+
+      el["odabrana"] = false
+      odabrane.each do |el1|
+        idodabrane = el1["id_knjige"]
+        if (idodabrane === kod)
+          el["odabrana"] = true
+          break
+        end
+      end
+    end
+    return var
+  end
+
+  def vratiSveKnjige2()  # kvadratno vrijeme
     var = Knjige.connection.select_all("SELECT id, naslov, godina, cijena, brojstranica, isbn, biblioteka_id, slika, hash_kod FROM knjiges;");
     autori = Knjige.connection.select_all("SELECT kodknjige, autor, autoris.id as autorID FROM vezes INNER JOIN autoris ON autoris.id = kodautora;");
     biblioteke = Biblioteke.connection.select_all("SELECT * FROM bibliotekes");
