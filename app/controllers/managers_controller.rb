@@ -33,6 +33,7 @@ class ManagersController < ApplicationController
       @godina = nil
       @brojStranica = nil
       @isbn = nil
+      @idPrikaz = "?"
       
       @biblioteke = Biblioteke.all
       @sviautori = Autori.all.order(:autor)
@@ -79,7 +80,7 @@ class ManagersController < ApplicationController
           knjiga[:naslov] = params[:naslov]
           sw = true
         else
-          flash.now[:danger] = "Ime autora ne može biti prazan string!"
+          flash.now[:danger] = "Naslov knjige ne može biti prazan string!"
         end
       end
 
@@ -139,6 +140,7 @@ class ManagersController < ApplicationController
       if sw
         knjiga.save
         flash.now[:success] = "Nova knjiga je unesena!"
+        @idPrikaz = knjiga[:id]
       end
 
       if @val && sw

@@ -43,6 +43,10 @@
                 <%= form_with url: "/nova_knjiga", id: "modificirajknjigu-forma", method: :post do |form| %>
                 <input name="id" type="hidden" value="<%= @idKnjige %>"/>
                 <table id="opisknjige1-tablica">
+                    <tr>
+                      <td class="opisknjige-elementi2">ID:</td>
+                      <td id="naslov-polje1" class="opisknjige-elementi1"><%= @idPrikaz %></td>
+                    </tr>
                     <tr class="opisknjige-neparnired">
                         <td class="opisknjige-elementi2">Title:</td>
                         <td id="naslov-polje" class="opisknjige-elementi1"><%= output1(@naslov) %></td>
