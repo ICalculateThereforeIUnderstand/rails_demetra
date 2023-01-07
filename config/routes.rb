@@ -1,6 +1,15 @@
 Rails.application.routes.draw do
   #devise_for :users
-  devise_for :users, controllers: { sessions: 'users/sessions' }
+  devise_for :users, skip: [:sessions ], controllers: { sessions: 'users/sessions', registrations: "users/registrations" } 
+  as :user do
+    get 'sign_in', to: 'devise/sessions#new', as: :new_user_session
+    #get 'sign_up', to: 'devise/registrations#new', as: :new_user_registration
+    post 'sign_in', to: 'devise/sessions#create', as: :user_session
+    delete 'sign_out', to: 'devise/sessions#destroy', as: :destroy_user_session
+  end
+  devise_scope :user do
+    get 'sign_up', to: 'devise/registrations#new'
+  end
   #get 'bibliotekes/index'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

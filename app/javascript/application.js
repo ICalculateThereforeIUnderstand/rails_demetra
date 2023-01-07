@@ -10,7 +10,12 @@ class Header {
         this.collapsMenu = document.querySelector("#collapsing-menu-header");
         if (this.collapsMenu === null) {
             this.collapsMenu = document.querySelector("#collapsing-menu-header1");
-            this.visina = 160;
+            if (this.collapsMenu !== null) {
+              this.visina = this.collapsMenu.children.length * 50 + 10;
+            } else {
+              this.visina = 160;
+            }
+            console.log("visina je postavljena na " + this.visina);
         }
         this.toggle = false;
 
@@ -745,8 +750,12 @@ if (el !== null) {
     el.addEventListener("click", (e)=>{e.preventDefault(); history.back(); console.log("ides natrag")});
 }
 
-if (document.querySelector("#izdvajamo-main"))
+if (document.querySelector("#izdvajamo-main")) {
   postaviFlash("alert");
+}
+if (document.querySelector("#login-main")) {
+    postaviFlash("alert");
+}
 }, 250)
 
 // pomocni devlopment kod

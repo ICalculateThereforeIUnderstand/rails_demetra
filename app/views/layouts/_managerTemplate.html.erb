@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Demetra Manager</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="utf-8">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "stil_manager", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <div id="tijelo">
+      <header>
+        <div id="header">
+          <%= image_tag("slika_demetre8bit_mala1.png", id: "el1-header", alt: "slika Demetre") %>
+          <%= image_tag("element2.png", id: "el2-header", alt: "logo") %>
+          <%= image_tag("slika_demetre8bit_mala1.png", id: "el3-header", alt: "slika Demetre") %>
+          <div id="izbornik-header">
+            <a href="/manager1" class="link-header lijevi-link-header">Books</a>
+            <a href="/manager2" class="link-header">Warehouses</a>
+            <!--<a href="#" class="link-header">Artikli</a>-->
+            <% if current_user %>
+              <%= button_to "Sign out", destroy_user_session_path, method: :delete, class:"link-header-button"%>
+            <% else %>
+              <% if user_exists? %>
+                <%= link_to "Sign in", new_user_session_path, class:"link-header"%>
+              <% else %>
+                <%= link_to "Sign in", new_user_session_path, class:"link-header"%>
+                <%= link_to "Sign up", "/sign_up", class:"link-header"%>
+              <% end %>  
+            <% end %>
+            <% if @uputstvaSw %>
+                <a href="<%= @uputstvaLink %>" class="link-header desni-link-header">Help</a>
+            <% else %>
+                <a href="#" class="link-header desni-link-header"></a>
+            <% end %>
+          </div>
+          <div id="gumb-header">
+            <div class="gumb-el"></div>
+            <div class="gumb-el"></div>
+            <div class="gumb-el"></div>
+          </div>
+        </div>
+        <div id="collapsing-menu-header1">
+          <a href="/manager1" class="collapsing-link"><p>Books</p></a>
+          <a href="/manager2" class="collapsing-link"><p>Warehouses</p></a>
+          <% if current_user %>
+            <%= button_to "Sign out", destroy_user_session_path, method: :delete, class:"login-link-header-button"%>
+          <% else %>
+            <% if user_exists? %>
+              <%= link_to "Sign in", new_user_session_path, class:"login-collapsing-link" %>
+            <% else %>
+              <%= link_to "Sign in", new_user_session_path, class:"login-collapsing-link" %>
+              <%= link_to "Sign up", "/sign_up", class:"login-collapsing-link" %>
+            <% end %>  
+          <% end %>
+          <% if @uputstvaSw %>
+            <a href="<%= @uputstvaLink %>" class="collapsing-link"><p>Help</p></a>
+          <% end %>
+        </div>
+      </header>
+      <%= yield %>
+    </div>
+  </body>
+</html>

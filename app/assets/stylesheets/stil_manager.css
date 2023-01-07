@@ -64,6 +64,7 @@ header {
 
 .link-header-button:hover {
     color: #089e23;
+    cursor: pointer;
 }
 
 .desni-link-header {
@@ -166,7 +167,7 @@ header {
     /*color: yellow;*/
     text-decoration-line: none;
     display: block;
-    /*background-color: green;*/
+    /*background-color: yellow;*/
     transition: background-color 0.7s;
 }
 
@@ -1354,4 +1355,94 @@ ul.pagination {
         margin-bottom: 10px;
         font-size: 15px;
     }
+}
+
+#login-main {
+    min-height: 100vh;
+    width: 100%;
+    position: relative;
+    background-color: #f7cc86;
+    border: 1px solid #f7cc86;
+    font-family: sans-serif;
+}
+
+.login-main-div {
+    margin: 50px auto 0px auto;
+    /*background-color: red;*/
+    width: 300px;
+    max-width: 100%;
+}
+
+.login-main-div1 {
+    /*background-color: green;*/
+    font-size: 18px;
+}
+
+.login-main-input {
+    font-size: 18px;
+    margin: 10px 0px 20px 0px;
+}
+
+.login-main-button {
+    font-size: 20px;
+    margin: 15px 0px 0px 20px;
+    height: 40px;
+    width: 80px;
+}
+
+.login-main-checkbox {
+    height: 20px;
+    width: 20px;
+}
+
+
+.login-collapsing-link {
+    height: 50px;
+    width: 100%;
+    /*color: yellow;*/
+    text-decoration-line: none;
+    display: block;
+    /*background-color: yellow; */
+    /*border: 2px solid white;*/
+    /*transition: background-color 0.7s;*/
+
+    box-sizing: border-box;
+    /*margin: 0px 0px 0px 40px;*/
+    padding: 15px 0px 15px 40px;
+    color: white;
+    transition: color 0.7s, background-color 0.7s;
+}
+
+.login-collapsing-link:hover {
+    background-color: rgba(200,200,200,0.4);
+    color: #4dedff;
+}
+
+.login-link-header-button {
+    height: 50px;
+    width: 100%;
+    /*color: yellow;*/
+    text-decoration-line: none;
+    display: block;
+
+
+    margin: 0px 0px 0px 40px;
+    padding: 15px 0px 15px 0px;
+    color: white;
+    transition: color 0.7s, background-color 0.7s;
+
+    background-color: rgba(0,0,0,0);
+    /*background-color: green;*/
+    /*background-color: red;*/
+    border: 0px solid rgba(0,0,0,0);
+    padding: 0px 0px 0px 40px;
+    margin: 0;
+    font-size: 16px;
+    text-align: left;
+}
+
+.login-link-header-button:hover {
+    background-color: rgba(200,200,200,0.4);
+    color: #4dedff;
+    cursor: pointer;
 }

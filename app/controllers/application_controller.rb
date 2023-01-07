@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   protect_from_forgery unless: -> { request.format.json? }
     #protect_from_forgery with: :null_session
-
+  helper_method :user_exists?
     
 
     helper_method :retrieve_last_index_page_or_default
@@ -14,6 +14,14 @@ class ApplicationController < ActionController::Base
     
     def retrieve_last_index_page_or_default(default_path: root_path)
         session[:last_index_page] || default_path
+    end
+
+    def user_exists?
+      if (User.count > 0)
+        return true 
+      else 
+        return false
+      end
     end
 
     protected

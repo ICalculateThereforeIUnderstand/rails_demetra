@@ -1,7 +1,24 @@
+module ManagersHelper 
+  def user_logged_in?
+    if !current_user
+      flash[:danger] = "Za pristup toj stranici prvo se morate ulogirati."
+      if user_exists?
+        redirect_to new_user_session_path
+      else 
+        redirect_to "/sign_up"
+      end
+    end
+  end
+end
+
 class ManagersController < ApplicationController
+    include ManagersHelper
+
     def nova_knjiga
       flash.delete(:danger)
       flash.delete(:success)
+
+      user_logged_in?
 
       @uputstvaSw = true
       @uputstvaLink = "/nova_knjiga_help"
@@ -158,6 +175,7 @@ class ManagersController < ApplicationController
     end # if params[:akcija] == "dodaj"
     end
     def manager1
+      user_logged_in?
         #@knjige = Knjige.paginate(:page => params[:page], :per_page => 20)  
       #@naslov = params[:naslov]
       store_last_index_page  # sprema ovaj URL za back button
@@ -290,6 +308,7 @@ class ManagersController < ApplicationController
         #@autori = Autori.all  
     end
     def modificiraj_knjigu
+        user_logged_in?
         @uputstvaSw = true
         @uputstvaLink = "/modificiraj_knjigu_help"
 
@@ -574,6 +593,7 @@ class ManagersController < ApplicationController
     end
 
     def manager2
+        user_logged_in?
         #flash.now[:danger] = "Dogodila se pogreska!"
         #flash.now[:success] = "proslo!"
         @uputstvaSw = true
@@ -604,6 +624,7 @@ class ManagersController < ApplicationController
     end
 
     def dodaj_skladiste
+        user_logged_in?
         if params[:novo_skladiste].nil? || params[:novo_skladiste].to_s.strip.empty?
             flash[:danger] = "Pogreška! Ime novog skladista ne smije biti prazan string."
         elsif !Skladista.find_by(skladiste:params[:novo_skladiste]).nil?
@@ -620,6 +641,7 @@ class ManagersController < ApplicationController
         redirect_to "/manager2"
     end
     def dodaj_adresu
+        user_logged_in?
         s1 = "-"
         if !params[:nova_adresa].nil? && !params[:nova_adresa].to_s.strip.empty?
             s1 = params[:nova_adresa]
@@ -664,6 +686,7 @@ class ManagersController < ApplicationController
         end
     end
     def oduzmi_skladiste
+        user_logged_in?
         #redirect_to manager2_url
         s = ""
         if !params[:skladiste].nil?
@@ -683,6 +706,7 @@ class ManagersController < ApplicationController
         end
     end
     def oduzmi_adresu
+        user_logged_in?
         s = ""
         if !params[:adresa].nil?
             s = params[:adresa]
@@ -699,10 +723,5 @@ class ManagersController < ApplicationController
             redirect_to manager2_url(adresa: s, skladiste: params[:skladiste])
         end
     end
-    def manager3
-    end
 
-    def modificiraj_knjigu_pokus
-
-    end
 end

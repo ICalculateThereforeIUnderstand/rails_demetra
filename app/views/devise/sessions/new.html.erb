@@ -1,26 +1,33 @@
-<h2>Log1 in</h2>
+<main id="login-main">
+  <%= render 'layouts/flash' %>
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :login %><br />
-    <%= f.text_field :login, autofocus: true %>
+  <div class="login-main-div">
+
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <div class="field login-main-div1">
+        <%= f.label :login %><br />
+        <%= f.text_field :login, autofocus: true, class: "login-main-input", 
+          placeholder: "upisite username ili email", maxlength: 255, size: 18 %>
+      </div>
+
+      <div class="field login-main-div1">
+        <%= f.label :password %><br />
+        <%= f.password_field :password, class: "login-main-input", 
+          placeholder: "upisite password", maxlength: 255, size: 18 %>
+      </div>
+
+      <% if devise_mapping.rememberable? %>
+        <div class="field login-main-div1">
+          <%= f.check_box :remember_me, class: "login-main-checkbox" %>
+          <%= f.label :remember_me %>
+        </div>
+      <% end %>
+
+      <div class="actions">
+        <%= f.submit "Log in", class: "login-main-button" %>
+      </div>
+    <% end %>
+
   </div>
 
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
-
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
-    </div>
-  <% end %>
-
-  <div class="actions">
-    <%= f.submit "Log in" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</main>
