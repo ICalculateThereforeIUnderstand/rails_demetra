@@ -738,7 +738,7 @@ let h, g, p, m2, c, menu, mk, m1, el;
 document.addEventListener("turbo:load", function () {
 
 setTimeout(()=>{
-console.log("1stranica je ucitana " + Math.random());
+console.log("stranica je ucitana " + Math.random());
 h = new Header();
 g = new Gumbi();
 p = new Pagination();
