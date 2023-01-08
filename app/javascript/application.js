@@ -324,7 +324,7 @@ class ModificirajKnjigu {
                 if (i == 10)  continue;
                 if (i == 4 || i == 2 || i == 8 || i == 9) {
                     djeca[i].addEventListener("click", (e)=>{this.toggleClick1(e)});
-                    if (i == 7) {
+                    if (i == 8) {
                         let el = (djeca[i].children)[2].children[1];   
                         el.addEventListener("click", (e)=>{e.stopPropagation()});
                         console.log("OZNACILI SMO " + el.id);
@@ -737,33 +737,33 @@ let h, g, p, m2, c, menu, mk, m1, el;
 
 document.addEventListener("turbo:load", function () {
 
-setTimeout(()=>{
-console.log("stranica je ucitana " + Math.random());
-h = new Header();
-g = new Gumbi();
-p = new Pagination();
+//setTimeout(()=>{
+  console.log("stranica je ucitana " + Math.random());
+  h = new Header();
+  g = new Gumbi();
+  p = new Pagination();
 
-// manager
-m2 = new Manager2();
+  // manager
+  m2 = new Manager2();
 
-c = new Confirmation();
-menu = new Confirmation("modificirajknjigu-menu");
-mk = new ModificirajKnjigu(c, menu);
+  c = new Confirmation();
+  menu = new Confirmation("modificirajknjigu-menu");
+  mk = new ModificirajKnjigu(c, menu);
 
-m1 = new Manager1();
+  m1 = new Manager1();
 
-el = document.querySelector("#link-back");
-if (el !== null) {
+  el = document.querySelector("#link-back");
+  if (el !== null) {
     el.addEventListener("click", (e)=>{e.preventDefault(); history.back(); console.log("ides natrag")});
-}
+  }
 
-if (document.querySelector("#izdvajamo-main")) {
-  postaviFlash("alert");
-}
-if (document.querySelector("#login-main")) {
+  if (document.querySelector("#izdvajamo-main")) {
     postaviFlash("alert");
-}
-}, 250)
+  }
+  if (document.querySelector("#login-main")) {
+    postaviFlash("alert");
+  }
+//}, 250)
 
 }); // turbo:load 
 
