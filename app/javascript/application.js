@@ -735,8 +735,10 @@ class Confirmation {
 
 let h, g, p, m2, c, menu, mk, m1, el;
 
+document.addEventListener("turbo:load", function () {
+
 setTimeout(()=>{
-console.log("stranica je ucitana " + Math.random());
+console.log("1stranica je ucitana " + Math.random());
 h = new Header();
 g = new Gumbi();
 p = new Pagination();
@@ -762,6 +764,8 @@ if (document.querySelector("#login-main")) {
     postaviFlash("alert");
 }
 }, 250)
+
+}); // turbo:load 
 
 // pomocni devlopment kod
 
