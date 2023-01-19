@@ -5,7 +5,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   validates :username, presence: true, length: { maximum: 50 }, uniqueness: {case_sensitive: false}
-  
+  validates :email, format: URI::MailTo::EMAIL_REGEXP
+
   attr_writer :login
   validate :validate_username
        
@@ -28,5 +29,11 @@ class User < ApplicationRecord
     if User.where(email: username).exists?
       errors.add(:username, :invalid)
     end
+  end
+
+  # the authenticate method from devise documentation
+  def self.authenticate(email, password)
+    user = User.find_for_authentication(email: email)
+    user&.valid_password?(password) ? user : nil
   end
 end
