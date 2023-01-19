@@ -440,6 +440,16 @@ class ApiController < ApplicationController
         end
 
         if knjiga.save 
+          sw = payload[:selectedSw]
+          if sw
+            s = Odabraneknjige.new(id_knjige:knjiga[:id])
+            s.save 
+          end
+
+          payload[:autoriID].each do |a|
+            Veze.create(kodautora:a, kodknjige:knjiga[:id])
+          end
+
           var = {"value"=>knjiga[:id], "error"=>false, "errorCode"=>"no error"}
         else 
           var = {"value"=>nil, "error"=>true, "errorCode"=>"Unos nove knjige nije uspio"}
