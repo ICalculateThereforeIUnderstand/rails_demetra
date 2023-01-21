@@ -279,10 +279,16 @@ class ApiController < ApplicationController
   end
 
     def sviAutoriBibliotekeSkladistaAdrese
-      var = helpers.vratiAutoreBiblioteke()
-      var1 = helpers.vratiPodatke()
-      var["skladistaAdrese"] = var1
-      render json: var
+      if current_user1 || false
+        var = helpers.vratiAutoreBiblioteke()
+        var1 = helpers.vratiPodatke()
+        var["skladistaAdrese"] = var1
+        render json: var
+      elsif current_user1.nil?
+        render json: {podaci:[], error: true, errorCode: "your session token expired or is revoked"}
+      else 
+        render json: {"autori"=>[], "biblioteke"=>[], "error"=>true, "errorCode"=>"you are not signed in"}
+      end
     end
     def izdvajamoApi
         var = Knjige.connection.select_all("SELECT o.id_knjige as id, naslov, godina, cijena, brojstranica, isbn, biblioteka, slika FROM odabraneknjiges as o INNER JOIN knjiges  ON knjiges.id = o.id_knjige INNER JOIN bibliotekes as b ON b.biblioteka_id = knjiges.biblioteka_id;").to_a();
@@ -359,12 +365,17 @@ class ApiController < ApplicationController
     end
 
     def sve_knjigeApi1
-      var = helpers.vratiSveKnjige1()
-      #sleep(4)
-      render json: var
-  end
+      if current_user1 || false
+        var = helpers.vratiSveKnjige1()
+        #sleep(4)
+        render json: var
+      else 
+        render json: {podaci:[], error: true, errorCode: "you are not signed in"}
+      end
+    end
 
     def modificiraj_knjiguApi
+     if current_user1 || false 
       tip = params[:tip]
       if (tip === "NO_QUERY")
         var = {"value"=>nil, "error"=>false, "errorCode"=>"no error"}
@@ -557,9 +568,15 @@ class ApiController < ApplicationController
         #sleep(2)
       end
       render json: var
+     elsif current_user1.nil?
+      render json: {podaci:[], error: true, errorCode: "your session token expired or is revoked"}
+     else 
+      render json: {"value"=>nil, "error"=>true, "errorCode"=>"you are not signed in"}
+     end
     end
 
     def manager2
+      if current_user1 || false
         tip = params[:tip]
         if (tip === "RETURN_SKLADISTA_ADRESE") # query for single page application
           var1 = helpers.vratiPodatke()
@@ -655,6 +672,28 @@ class ApiController < ApplicationController
         #sleep(1)
         render json: var
         #render plain: "#{params} \n\nid: #{params[:id]} \nuser: #{params[:user]}"
+      elsif current_user1.nil?
+        render json: {podaci:[], error: true, errorCode: "your session token expired or is revoked"}
+      else 
+        render json: {"value"=>nil, "error"=>true, "errorCode"=>"you are not signed in"}
+      end
+    end
+
+    # eksperimentalni action kojeg ces kasnije obrisati zajedno sa njegovom rutom
+    def podaci 
+
+      var = {podaci: [{id: 14, naslov: "knjiga1", autor: "Thomas Jefferson"},
+      {id: 15, naslov: "Monte Carlo", autor: "Savo"}],
+      error: false, errorCode: "no error"}
+  
+      #render json: doorkeeper_token
+      if current_user1 || false
+        render json: var
+      elsif current_user1.nil?
+        render json: {podaci:[], error: true, errorCode: "your session token expired or is revoked"}
+      else 
+        render json: {podaci:[], error: true, errorCode: "you are not signed in"}
+      end
     end
 
     private
@@ -674,9 +713,18 @@ class ApiController < ApplicationController
 
     # helper method to access the current user from the token
     def current_user1
-      if (doorkeeper_token.nil?) 
+      if (doorkeeper_token.nil?) # token nije vazeci / ne postoji u bazi
         return false
       end
+
+      if (!doorkeeper_token.revoked_at.nil?) # token je ponisten
+        return nil
+      end
+
+      if (doorkeeper_token.created_at + doorkeeper_token.expires_in < Time.now) 
+        return nil # tokenu je isteklo vrijeme
+      end
+      
       @current_user ||= User.find_by(id: doorkeeper_token[:resource_owner_id])
     end
 end

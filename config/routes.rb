@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   use_doorkeeper do
     skip_controllers :authorizations, :applications, :authorized_applications
   end
-  post "/signup1", to: "api#signup"
+  post "/signup", to: "api#signup"
 
   #devise_for :users
   devise_for :users, skip: [:sessions ], controllers: { sessions: 'users/sessions', registrations: "users/registrations" } 
@@ -65,4 +65,7 @@ Rails.application.routes.draw do
 
   get '/logirani', to: 'managers#logirani_user'
   get '/welcome', to: 'managers#welcome'
+
+  #ova ruta je eksperimentalna, kasnije ces je obrisati
+  post "/api/sveknjige", to: "api#podaci"
 end
